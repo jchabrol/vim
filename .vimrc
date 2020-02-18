@@ -37,7 +37,8 @@ Plugin 'tpope/vim-surround'
 " git clone --config transfer.fsckobjects=false https://github.com/mileszs/ack.vim.git ~/.vim/bundle/ack.vim
 Plugin 'mileszs/ack.vim'
 
-
+" Markdown preview
+Plugin 'JamshedVesuna/vim-markdown-preview'
 
 call vundle#end()
 filetype plugin indent on
@@ -93,5 +94,9 @@ let g:EasyMotion_smartcase = 1
 " Open files of location/quickfix lists in new tabs instead of in the current
 " buffer
 set switchbuf+=newtab
+
+" Vim markdown preview parameters
+let vim_markdown_preview_browser='Mozilla Firefox'
+let vim_markdown_preview_github=1
 
 syntax enable
