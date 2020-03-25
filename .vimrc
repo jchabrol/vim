@@ -1,7 +1,9 @@
 set nocompatible
+
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
+
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -61,6 +63,10 @@ nnoremap <LEADER>, :noh<CR>
 nnoremap <LEADER>w :w<CR>
 " Toggle NERDTree panel
 nnoremap <LEADER>n :NERDTreeToggle<CR>
+" Set to Background
+nnoremap <LEADER>z <C-z>
+" Refresh vim config from ~/.vimrc
+nnoremap <LEADER>sv :source ~/.vimrc<CR>
 
 " Tab movement
 nnoremap <F2> :tabp<CR>
@@ -75,6 +81,16 @@ nnoremap <LEADER>k <C-w>k
 nnoremap <LEADER><Up> <C-w>k
 nnoremap <LEADER>l <C-w>l
 nnoremap <LEADER><Right> <C-w>l
+
+" Display trailing spaces and other stuff
+set listchars=tab:\ \ ,trail:~,extends:>,precedes:<,nbsp:⎵
+set list
+
+" Automatically refresh buffer on external changes
+" For the CursorHold see
+" [here](https://superuser.com/a/1090762)
+set autoread
+au CursorHold * checktime
 
 " Activate robotframework sytax highlighting
 noremap <F12> :setf robot<CR>
@@ -98,5 +114,10 @@ set switchbuf+=newtab
 " Vim markdown preview parameters
 let vim_markdown_preview_browser='Mozilla Firefox'
 let vim_markdown_preview_github=1
+
+" Indent setup
+set expandtab
+set shiftwidth=2
+set softtabstop=2
 
 syntax enable
