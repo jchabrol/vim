@@ -120,4 +120,17 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 
+" Change to uppercase, lowercase and titlecase
+function! TwiddleCase(str)
+    if a:str ==# toupper(a:str)
+      let result = tolower(a:str)
+    elseif a:str ==# tolower(a:str)
+      let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+    else
+      let result = toupper(a:str)
+    endif
+    return result
+endfunction
+vnoremap <LEADER>u y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
+
 syntax enable
