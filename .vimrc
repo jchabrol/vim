@@ -1,9 +1,7 @@
 set nocompatible
-
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
-
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -66,33 +64,49 @@ Plugin 'JamshedVesuna/vim-markdown-preview'
 " Hashicorp Terraform syntax support
 Plugin 'hashivim/vim-terraform'
 
-
 " Markdown support
 Plugin 'tpope/vim-markdown'
-
 
 call vundle#end()
 filetype plugin indent on
 " Show command
 set showcmd
 
+" Markdown support
+let g:markdown_fenced_languages = ['html', 'javascript', 'bash=sh']
+
+" Treat *.dockerfile files as dockerfile syntax
+au BufNewFile,BufFilePre,BufRead *.dockerfile set filetype=dockerfile
+
+au BufNewFile,BufFilePre,BufRead *.bashrc set filetype=sh
+au BufNewFile,BufFilePre,BufRead *.env.local set filetype=sh
+
+" Security concerns and useless anyway
+set modelines=0
+
 " LEADER SHORTCUTS
 let mapleader = " "
 
 " Quit
 nnoremap <LEADER>q :q<CR>
+" Save current buffer
+nnoremap <LEADER>w :w<CR>
+" Save and Exit
+nnoremap <LEADER>x :x<CR>
 " Select everything
 nnoremap <LEADER>v V`]
 " Clear search highlight
 nnoremap <LEADER>, :noh<CR>
-" Save current buffer
-nnoremap <LEADER>w :w<CR>
 " Toggle NERDTree panel
 nnoremap <LEADER>n :NERDTreeToggle<CR>
 " Set to Background
 nnoremap <LEADER>z <C-z>
+" Edit my vimrc
+nnoremap <LEADER>ev :e $MYVIMRC<CR>
 " Refresh vim config from ~/.vimrc
 nnoremap <LEADER>sv :source ~/.vimrc<CR>
+" Edit vimrc in a vertical split
+nnoremap <leader>ev :vsplit ~/.vimrc<CR>
 
 " Tab movement
 nnoremap <F2> :tabp<CR>
@@ -114,7 +128,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTreeToggle | winc
 " enable line numbers
 let NERDTreeShowLineNumbers=1
 " make sure relative line numbers are used
-autocmd FileType nerdtree setlocal relativenumber
+"autocmd FileType nerdtree setlocal relativenumber
 
 " enable hidden files display
 let NERDTreeShowHidden=1
@@ -148,17 +162,6 @@ let g:EasyMotion_smartcase = 1
 " buffer
 set switchbuf+=newtab
 
-" Markdown support
-" Treat *.md files as markdown syntax (default is modula2)
-" au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
-let g:markdown_fenced_languages = ['html', 'javascript', 'bash=sh']
-
-" Treat *.dockerfile files as dockerfile syntax
-au BufNewFile,BufFilePre,BufRead *.dockerfile set filetype=dockerfile
-
-au BufNewFile,BufFilePre,BufRead *.bashrc set filetype=sh
-au BufNewFile,BufFilePre,BufRead *.env.local set filetype=sh
-
 " Vim markdown preview parameters
 let vim_markdown_preview_browser='Mozilla Firefox'
 let vim_markdown_preview_github=1
@@ -167,6 +170,35 @@ let vim_markdown_preview_github=1
 set expandtab
 set shiftwidth=2
 set softtabstop=2
+set autoindent
+
+" File search
+set wildmenu
+set wildmode=list:longest
+set wildignore+=node_modules/*,bower_components/*
+
+" Misc
+set encoding=utf-8
+set scrolloff=3
+set showmode
+set showcmd
+set showmatch
+set hidden
+set visualbell
+set cursorline
+set ttyfast
+set backspace=indent,eol,start
+set ruler
+
+set ignorecase
+set smartcase
+set smarttab
+set hlsearch
+set incsearch
+
+
+" Always display status line
+set laststatus=2
 
 " Change to uppercase, lowercase and titlecase
 function! TwiddleCase(str)
@@ -181,10 +213,49 @@ function! TwiddleCase(str)
 endfunction
 vnoremap <LEADER>u y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 
+function! CustomBranchName(name)
+  return fnamemodify(a:name, ':t')[0:10]
+endfunction
+let g:airline#extensions#branch#format = 'CustomBranchName'
+
 " Display line number relative to the current one
 "set relativenumber
 
+" YouCompleteMe Fix
+let g:ycm_server_python_interpreter="/usr/bin/python3"
+
+" Centralize all vim temp files in home folder
+set backup
+set backupdir=~/.vim/backup
+set directory=~/.vim/swap
+set undodir=~/.vim/undo
+set writebackup
+set backupcopy=yes
+
+" Ensure title and titlestring variables are set to default for autoswap
+set title titlestring=
+
+" Automatically refresh buffer on external changes
+" For the CursorHold see
+" [here](https://superuser.com/a/1090762)
+set autoread
+au CursorHold * checktime
+
+" Wait x milliseconds of inactivity to write the current buffer into a swap
+" file, and to trigger CursorHold a event.
+set updatetime=2000
+
+" Syntastic options
+" Customize status line with syntastic errors
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_mode_map = { "mode": "passive" }
+
 " Undo info available across vim instances
 set undofile
+
+" Enable spell checking with default english dictionnary
+autocmd FileType markdown setlocal spell spelllang=en
 
 syntax enable
