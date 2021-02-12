@@ -59,13 +59,10 @@ Plugin 'evedovelli/rst-robotframework-syntax-vim'
 Plugin 'nvie/vim-flake8'
 
 " Markdown preview
-Plugin 'JamshedVesuna/vim-markdown-preview'
+Plugin 'iamcco/markdown-preview.nvim'
 
 " Hashicorp Terraform syntax support
 Plugin 'hashivim/vim-terraform'
-
-" Markdown support
-Plugin 'tpope/vim-markdown'
 
 call vundle#end()
 filetype plugin indent on
@@ -73,7 +70,7 @@ filetype plugin indent on
 set showcmd
 
 " Markdown support
-let g:markdown_fenced_languages = ['html', 'javascript', 'bash=sh']
+"let g:markdown_fenced_languages = ['html', 'javascript', 'bash=sh']
 
 " Treat *.dockerfile files as dockerfile syntax
 au BufNewFile,BufFilePre,BufRead *.dockerfile set filetype=dockerfile
@@ -122,6 +119,14 @@ nnoremap <LEADER><Up> <C-w>k
 nnoremap <LEADER>l <C-w>l
 nnoremap <LEADER><Right> <C-w>l
 
+" Activate robotframework sytax highlighting
+noremap <F12> :setf robot<CR>
+
+" Use Markdown plugin
+nnoremap <LEADER>m :MarkdownPreview<CR>
+nnoremap <LEADER>ms :MarkdownPreviewStop<CR>
+
+
 " If no file required at CLI invoke, open with NERDTree
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTreeToggle | wincmd w | q | endif
 
@@ -143,8 +148,6 @@ set list
 set autoread
 au CursorHold * checktime
 
-" Activate robotframework sytax highlighting
-noremap <F12> :setf robot<CR>
 
 " Easymotion configuration
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
