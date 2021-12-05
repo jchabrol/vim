@@ -78,6 +78,15 @@ au BufNewFile,BufFilePre,BufRead *.dockerfile set filetype=dockerfile
 au BufNewFile,BufFilePre,BufRead *.bashrc set filetype=sh
 au BufNewFile,BufFilePre,BufRead *.env.local set filetype=sh
 
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=0 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
+
 " Security concerns and useless anyway
 set modelines=0
 
@@ -98,8 +107,6 @@ nnoremap <LEADER>, :noh<CR>
 nnoremap <LEADER>n :NERDTreeToggle<CR>
 " Set to Background
 nnoremap <LEADER>z <C-z>
-" Edit my vimrc
-nnoremap <LEADER>ev :e $MYVIMRC<CR>
 " Refresh vim config from ~/.vimrc
 nnoremap <LEADER>sv :source ~/.vimrc<CR>
 " Edit vimrc in a vertical split
@@ -108,6 +115,10 @@ nnoremap <leader>ev :vsplit ~/.vimrc<CR>
 " Tab movement
 nnoremap <F2> :tabp<CR>
 nnoremap <F3> :tabn<CR>
+" Activate robotframework sytax highlighting
+noremap <F12> :setf robot<CR>
+
+set pastetoggle=<F4>
 
 " Move around windows
 nnoremap <LEADER>h <C-w>h
@@ -119,13 +130,13 @@ nnoremap <LEADER><Up> <C-w>k
 nnoremap <LEADER>l <C-w>l
 nnoremap <LEADER><Right> <C-w>l
 
-" Activate robotframework sytax highlighting
-noremap <F12> :setf robot<CR>
+
+" Write if you forgot sudo
+cmap w!! w !sudo tee % >/dev/null
 
 " Use Markdown plugin
 nnoremap <LEADER>m :MarkdownPreview<CR>
 nnoremap <LEADER>ms :MarkdownPreviewStop<CR>
-
 
 " If no file required at CLI invoke, open with NERDTree
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTreeToggle | wincmd w | q | endif
@@ -148,6 +159,8 @@ set list
 set autoread
 au CursorHold * checktime
 
+" Call flake8 before writing
+autocmd BufWritePost *.py call flake8#Flake8()
 
 " Easymotion configuration
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
@@ -178,7 +191,9 @@ set autoindent
 " File search
 set wildmenu
 set wildmode=list:longest
-set wildignore+=node_modules/*,bower_components/*
+set wildignore+=node_modules/*,bower_components/*,*.swp,*.bak,*.pyc,*.class
+set history=1000         " remember more commands and search history
+set undolevels=1000      " use many muchos levels of undo
 
 " Misc
 set encoding=utf-8
@@ -198,7 +213,6 @@ set smartcase
 set smarttab
 set hlsearch
 set incsearch
-
 
 " Always display status line
 set laststatus=2
