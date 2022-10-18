@@ -64,6 +64,9 @@ Plugin 'iamcco/markdown-preview.nvim'
 " Hashicorp Terraform syntax support
 Plugin 'hashivim/vim-terraform'
 
+"" coc plugin for code completion
+"Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+
 call vundle#end()
 filetype plugin indent on
 " Show command
@@ -233,9 +236,8 @@ function! CustomBranchName(name)
   return fnamemodify(a:name, ':t')[0:10]
 endfunction
 let g:airline#extensions#branch#format = 'CustomBranchName'
-
-" Display line number relative to the current one
-"set relativenumber
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_section_y=''
 
 " YouCompleteMe Fix
 let g:ycm_server_python_interpreter="/usr/bin/python3"
@@ -270,7 +272,6 @@ let g:syntastic_mode_map = { "mode": "passive" }
 
 " Undo info available across vim instances
 set undofile
-
 " Enable spell checking with default english dictionnary
 autocmd FileType markdown setlocal spell spelllang=en
 
