@@ -121,6 +121,7 @@ nnoremap <F3> :tabn<CR>
 " Activate robotframework sytax highlighting
 noremap <F12> :setf robot<CR>
 
+" Activate vim paste option
 set pastetoggle=<F4>
 
 " Move around windows
